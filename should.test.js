@@ -1,27 +1,4 @@
-!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Should=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/*!
- * Should
- * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
- * MIT Licensed
- */
-
-var should = require('./should');
-
-should
-  .use(require('./ext/assert'))
-  .use(require('./ext/chain'))
-  .use(require('./ext/bool'))
-  .use(require('./ext/number'))
-  .use(require('./ext/eql'))
-  .use(require('./ext/type'))
-  .use(require('./ext/string'))
-  .use(require('./ext/property'))
-  .use(require('./ext/error'))
-  .use(require('./ext/match'))
-  .use(require('./ext/deprecated'));
-
- module.exports = should;
-},{"./ext/assert":3,"./ext/bool":4,"./ext/chain":5,"./ext/deprecated":6,"./ext/eql":7,"./ext/error":8,"./ext/match":9,"./ext/number":10,"./ext/property":11,"./ext/string":12,"./ext/type":13,"./should":14}],2:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -125,7 +102,7 @@ function objEquiv (a, b) {
   return true;
 }
 
-},{"./util":15}],3:[function(require,module,exports){
+},{"./util":16}],2:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -183,7 +160,7 @@ module.exports = function(should) {
     }
   };
 };
-},{"../util":15,"assert":16}],4:[function(require,module,exports){
+},{"../util":16,"assert":18}],3:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -205,7 +182,7 @@ module.exports = function(should, Assertion) {
     this.assert(this.obj);
   }, true);
 };
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -224,7 +201,7 @@ module.exports = function(should, Assertion) {
 
   ['an', 'of', 'a', 'and', 'be', 'have', 'with', 'is', 'which'].forEach(addLink);
 };
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -258,7 +235,7 @@ module.exports = function(should, Assertion) {
     }));
   });
 };
-},{"../eql":2,"../util":15}],7:[function(require,module,exports){
+},{"../eql":1,"../util":16}],6:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -282,7 +259,7 @@ module.exports = function(should, Assertion) {
 
   Assertion.alias('equal', 'exactly');
 };
-},{"../eql":2}],8:[function(require,module,exports){
+},{"../eql":1}],7:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -333,6 +310,40 @@ module.exports = function(should, Assertion) {
   });
 
   Assertion.alias('throw', 'throwError');
+};
+},{}],8:[function(require,module,exports){
+/*!
+ * Should
+ * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
+ * MIT Licensed
+ */
+
+//var statusCodes = require('http').STATUS_CODES;
+
+module.exports = function(should, Assertion) {
+
+  Assertion.add('header', function(field, val) {
+    this
+      .have.property('headers')
+      .and.have.property(field.toLowerCase(), val);
+  });
+
+  Assertion.add('status', function(code) {
+    //this.params = { operator: 'to have response code ' + code + ' ' + i(statusCodes[code])
+    //    + ', but got ' + this.obj.statusCode + ' ' + i(statusCodes[this.obj.statusCode]) }
+
+    this.have.property('statusCode', code);
+  });
+
+  Assertion.add('json', function() {
+    this.have.property('headers')
+      .and.have.property('content-type').include('application/json');
+  }, true);
+
+  Assertion.add('html', function() {
+    this.have.property('headers')
+      .and.have.property('content-type').include('text/html');
+  }, true);
 };
 },{}],9:[function(require,module,exports){
 /*!
@@ -447,7 +458,7 @@ module.exports = function(should, Assertion) {
     }, this);
   });
 };
-},{"../eql":2,"../util":15}],10:[function(require,module,exports){
+},{"../eql":1,"../util":16}],10:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -714,7 +725,7 @@ module.exports = function(should, Assertion) {
   });
 
 };
-},{"../eql":2,"../util":15}],12:[function(require,module,exports){
+},{"../eql":1,"../util":16}],12:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -812,7 +823,31 @@ module.exports = function(should, Assertion) {
 
   Assertion.alias('instanceof', 'instanceOf');
 };
-},{"../util":15}],14:[function(require,module,exports){
+},{"../util":16}],14:[function(require,module,exports){
+/*!
+ * Should
+ * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
+ * MIT Licensed
+ */
+
+var should = require('./should');
+
+should
+  .use(require('./ext/assert'))
+  .use(require('./ext/chain'))
+  .use(require('./ext/bool'))
+  .use(require('./ext/number'))
+  .use(require('./ext/eql'))
+  .use(require('./ext/type'))
+  .use(require('./ext/string'))
+  .use(require('./ext/property'))
+  .use(require('./ext/http'))
+  .use(require('./ext/error'))
+  .use(require('./ext/match'))
+  .use(require('./ext/deprecated'));
+
+ module.exports = should;
+},{"./ext/assert":2,"./ext/bool":3,"./ext/chain":4,"./ext/deprecated":5,"./ext/eql":6,"./ext/error":7,"./ext/http":8,"./ext/match":9,"./ext/number":10,"./ext/property":11,"./ext/string":12,"./ext/type":13,"./should":15}],15:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -987,7 +1022,7 @@ Assertion.prototype = {
 };
 
 
-},{"./util":15}],15:[function(require,module,exports){
+},{"./util":16}],16:[function(require,module,exports){
 /*!
  * Should
  * Copyright(c) 2010-2014 TJ Holowaychuk <tj@vision-media.ca>
@@ -1116,7 +1151,31 @@ exports.forOwn = function(obj, f, context) {
     }
   }
 };
-},{"assert":16,"util":19}],16:[function(require,module,exports){
+},{"assert":18,"util":21}],17:[function(require,module,exports){
+var should = require('../');
+//var tests = require('./should.test.js');
+
+//Object.keys(tests).forEach(function (testName) { });
+//
+
+//console.log(Object.keys(window));
+console.log(Object.keys(window.mocha.options));
+
+//describe(function () {
+//it('fails', function () {
+//  //should.fail();
+//  throw new Error('wat');
+//});
+//});
+//
+//
+module.exports = {
+  'damn it': function () {
+    throw new Error('wat');
+  }
+};
+
+},{"../":14}],18:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -1478,7 +1537,7 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-},{"util/":19}],17:[function(require,module,exports){
+},{"util/":21}],19:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1503,14 +1562,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2098,6 +2157,4 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-},{"./support/isBuffer":18,"inherits":17}]},{},[1])
-(1)
-});
+},{"./support/isBuffer":20,"inherits":19}]},{},[17])
